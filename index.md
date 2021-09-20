@@ -1,4 +1,4 @@
-# Instalación de ArchLinux para alumnos de Sistemas Operativos en Red
+# Instalación de ArchLinux
 
 La distribución ArchLinux está dirigida para usuarios avanzados y su proceso de instalación permite conocer en mayor profundidad como funciona el sistema operativo y las diferentes opciones de configuración.
 
