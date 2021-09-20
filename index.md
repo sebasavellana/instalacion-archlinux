@@ -37,5 +37,10 @@ ip route show
 ping 8.8.8.8
 ping www.google.es
 ```
-4. 
+4. La hora del sistema es un parámetro que debe estar correcto para evitar problemas en la navegación ya que los sistemas remotos la utilizan como parámetro para el correcto funcionamiento del protocolo HTTPS y otras aplicaciones. El comando `date` devuelve la hora actual del sistema.
+Lo habitual es confiar en un servidor de hora en Internet bajo el protocolo NTP *Network Time Protocol* que sincronice la hora automáticamente con el comando:
+```
+timedatectl set-ntp true
+```
+5. Este es uno de los momentos críticos de la instalación, el particionado de los discos duros
 
