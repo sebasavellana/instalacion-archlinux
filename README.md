@@ -79,12 +79,35 @@ mount /dev/sda1 /mnt
 ```
 Observa lo que hace este comando. Antes de su ejecución, el directorio `/mnt` estaba vacío ya que no había nada en su interior. Una vez ejecutado, tampoco hay nada (realmente un directorio de *journaling* llamado `lost+found`) pero todo archivo y directorio que se cree allí estará en el disco duro donde se va a instalar el sistema.
 
-8 - Un **chroot** es una operación que modifica el directorio raíz de manera *aparente* para el proceso en ejecución y los que se ejecuten a posteriori hasta que se salga de la *jaula chroot*.
-El _chroot_ se puede realizar 
+8 - Este el primer paso tangible de la instalación en que se descarga el sistema base de los repositorios de Arch y los instala en el disco duro, el cual se localiza en el directorio `/mnt` a los ojos del LiveCD.
+```
+pacstrap /mnt base linux linux-firmware
+```
+Los paquetes _linux_ y _linux-firmware_ son el kernel del sistema operativo.
+
+9 - Los puntos de montaje persistentes en el sistema se almacenan en el fichero `/etc/fstab`. Una parte de la instalación se puede automatizar con la siguiente orden:
+```
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+Observa todo lo que hace el comando:
+- Genera el contenido de `/etc/fstab` para la partición ubicada en `/dev/sda1`, la cual está montada en `/mnt`
+- Con el operador de redirección `>>` añade en la última línea del fichero `/mnt/etc/fstab` el contenido generado. Observa que el fichero está en `/mnt` ya que es del disco duro _sda_ ya que no es el mismo _fstab_ que encontrarás en el LiveCD.
+
+En este supuesto de instalación hay que añadir una línea para el automontaje del `/home` y de la particion _swap_.
+
+10 - Un **chroot** es una operación que modifica el directorio raíz de manera *aparente* para el proceso en ejecución y los que se ejecuten a posteriori hasta que se salga de la *jaula chroot*.
+
+El _chroot_ se puede realizar en cualquier ubicación de la estructura de ficheros de Linux y desde el directorio que se realice el usuario no podrá subir por encima de ese nivel (con la orden `cd ..` por ejemplo) aunque a nivel físico existan directorios a nivel superior.
+
+Esta técnica se utiliza mucho en servidores FTP (que veréis en el módulo de Servicios en Red).
+
+ArchLinux utiliza un comando propio `arch-chroot` que realiza todos los procesos necesarios para trabajar directamente como si estuviesemos en el disco duro y partiendo desde la raíz en la estructura de ficheros.
+```
+arch-chroot /mnt
+```
 
 
-9. f
-10. f
+
 11. f
 12. f
 13. f
