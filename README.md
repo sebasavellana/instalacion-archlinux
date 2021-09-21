@@ -23,8 +23,12 @@ Toda la información está obtenida de https://wiki.archlinux.org/title/installa
 ## Proceso de instalación
 
 1 - Arranca la máquina virtual desde la ISO de instalación y en el cargador de arranque selecciona la opción *Arch Linux install medium (x86_64, BIOS)*
+
 2 - El sistema arrancará los procesos mínimos del sistema y presentará un prompt de root en el que introducir comandos y un pequeño texto de ayuda en la parte superior. Si empiezas a teclear verás que por defecto utiliza el teclado inglés. Para pasar al castellano utiliza:
-`loadkeys es`
+```
+loadkeys es
+```
+
 3 - Es importante verificar que se tiene conexión a Internet ya que será necesaria para descargar e instalar paquetes. Al estar configurada la VM en modo NAT ya debe tener conectividad pero se debe comprobar con los siguientes comandos:
 ```bash
 # Dirección IP
