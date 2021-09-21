@@ -59,9 +59,30 @@ Recuerda que con tabla de particiones MBR tienes las siguientes restricciones:
 - 3 primarias y una extendida, que en su interior tendrá particiones lógicas
 
 Por su parte, el particionado GPT supera estas limitaciones permitiendo hasta 128 particiones primarias.
-6. d
-7. f
-8. f
+
+6 - Una partición requiere un sistema de archivos para poder ser utilizada. Se le pueden dar formatos como el habitual *ext4* o su posible sustituto a futuro  *brtfs* con el comando `mkfs`
+```bash
+# Formato ext4 a la partición raíz
+mkfs.ext4 /dev/sda1
+
+# Formato ext4 a la partición /home
+mkfs.ext4 /dev/sda2
+```
+Hay que dar formato a la partición dedicada a la memoria swap (la cual se puede generar también con un fichero dedicado) con la orden:
+```
+mkswap /dev/sda3
+```
+
+7 - En este momento de la instalación se están lanzando comandos desde el Live CD de instalación pero el objetivo es que el sistema operativo quede instalado en el disco duro.
+```
+mount /dev/sda1 /mnt
+```
+Observa lo que hace este comando. Antes de su ejecución, el directorio `/mnt` estaba vacío ya que no había nada en su interior. Una vez ejecutado, tampoco hay nada (realmente un directorio de *journaling* llamado `lost+found`) pero todo archivo y directorio que se cree allí estará en el disco duro donde se va a instalar el sistema.
+
+8 - Un **chroot** es una operación que modifica el directorio raíz de manera *aparente* para el proceso en ejecución y los que se ejecuten a posteriori hasta que se salga de la *jaula chroot*.
+El _chroot_ se puede realizar 
+
+
 9. f
 10. f
 11. f
