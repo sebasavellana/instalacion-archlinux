@@ -105,24 +105,25 @@ ArchLinux utiliza un comando propio `arch-chroot` que realiza todos los procesos
 ```
 arch-chroot /mnt
 ```
+El prompt cambiará de ubicación de manera que obtendrás la siguiente salida:
+```bash
+~$ pwd
+/
+```
+Como ves, estás en el directorio raíz ubicado en la primera partición del primer disco duro. Pero a los ojos del instalador de ArchLinux el directorio de trabajo es `/mnt`.
 
+11 - Los pasos que se van a realizar a continuación son para configurar diversos parámetros del sistema operativo. En este paso se indica la zona horaria
+```
+ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
+```
 
+12 - El reloj hardware *(RTC) Real-Time Clock* es el que tiene el sistema en la placa base. Por otro lado, el reloj de sistema *System Clock* lo mantiene el sistema operativo.
 
-11. f
-12. f
-13. f
-14. f
-15. f
-16. f
-17. f
-18. f
-19. f
-20. f
-21. f
-22. f
-23. f
-24. f
-25. f
-26. f
-27. f
+Ambos relojes deben tener la misma hora y posteriormente sincronizarla con un servidor horario por NTP.
+
+El comando `hwclock` administra el reloj hardware visto desde el sistema operativo y con estoos parámetros fija el reloj hardware y el de sistema a la misma hora.
+```
+hwclock --systohc
+```
+
 
