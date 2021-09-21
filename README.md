@@ -50,6 +50,11 @@ timedatectl set-ntp true
 El particionado se puede realizar con dos herramientas `fdisk` y `cfdisk` sobre el dispositivo ubicado en `/dev/sda`
 La tabla de particiones puede estar en modo *mbr* (identificado como *dos*) o *gpt*. En este ejemplo, realizaremos la instalación en modo *dos*
 
+Recuerda que con tabla de particiones MBR tienes las siguientes restricciones:
+- 4 particiones primarias
+- 3 primarias y una extendida, que en su interior tendrá particiones lógicas
+
+Por su parte, el particionado GPT supera estas limitaciones permitiendo hasta 128 particiones primarias.
 6. d
 7. f
 8. f
