@@ -95,6 +95,58 @@ Observa todo lo que hace el comando:
 
 En este supuesto de instalación hay que añadir una línea para el automontaje del `/home` y de la particion _swap_.
 
+Observa el contenido del fichero `/etc/fstab`: 
+```
+# cat /etc/fstab 
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/sda1
+UUID=470243a7-86ca-45d3-8c76-49b2e5d49b87	/         	ext4      	rw,relatime	0 1
+```
+
+Las opciones importantes son _file system, dir_ y _type_. El resto se pueden "copiar y pegar".
+- El campo _file system_ se puede completar con el identificador de la partición, es decir, `/dev/sda2` o con su UUID obtenido con el comando `blkid`. Es más fiable utilizar el UUID debido a que no cambia mientras no se formatee el sistema de archivos mientras que el identificador `/dev/sda2` puede verse modificado si deja de ser la segunda partición del primer disco duro.
+- El punto de montaje será `/home` en el caso de `sda2` y `none` en caso de la partición swap
+- El tipo será `ext4` para la partición `/home` y `sw` para la swap.
+- Las opciones `rw,relatime` se pueden dejar por defecto para la partición `sda2`, en la swap se debe colocar `defaults`
+  - `rw` indica que el sistema de ficheros es de lectura y escritura
+  - `relatime` indica que solo se cambiará la fecha de acceso a un fichero si es anterior a su fecha de modificación
+- El parámetro _dump_ debe estar a 0 
+- El parámetro _pass_ vale 1 o 2 en función de la prioridad a la hora de realizar un _fsck_. En la swap deberá ser 0 ya que no se comprueba la integridad de la memoria virtual.
+
+Con esta información, si el fichero _fstab_ se completa con los identificadores de partición quedará de la siguiente forma:
+```
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/sda1
+UUID=470243a7-86ca-45d3-8c76-49b2e5d49b87	/         	ext4      	rw,relatime	0 1
+/dev/sda2                               	/home		    ext4    		rw,relatime	0 2
+/dev/sda3                               	none		    swap    		defaults	  0 0
+```
+Si se obtienen los UUID de cada partición con `blkid /dev/sda2` se deben introducir en el fichero de manera manual ya que la salida es la siguiente:
+```
+blkid /dev/sda2 
+/dev/sda2: UUID="3b2f309b-5738-4c74-9d5e-61f924b2f0f8" BLOCK_SIZE="4096" TYPE="ext4" PARTUUID="65d6e153-02"
+```
+Un truquillo para facilitar la faena es utilizar la herramienta `cut` y redirigir la salida con `>>` hacia `fstab`:
+```
+blkid /dev/sda2 | cut -d ' ' -f 2 >> /mnt/etc/fstab
+
+# Añade al fichero UUID="3b2f309b-5738-4c74-9d5e-61f924b2f0f8"
+```
+Y a continuación arreglar el fichero con un editor de texto como `nano` para que quede de la siguiente manera.
+
+```
+# nano /mnt/etc/fstab
+
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/sda1
+UUID=470243a7-86ca-45d3-8c76-49b2e5d49b87	/         	ext4      	rw,relatime	0 1
+UUID=3b2f309b-5738-4c74-9d5e-61f924b2f0f8	/home		    ext4    		rw,relatime	0 2
+UUID=a4b17606-ad94-439d-b8ad-04845aa6ec79	none		    swap    		defaults	  0 0
+```
+
 10 - Un **chroot** es una operación que modifica el directorio raíz de manera *aparente* para el proceso en ejecución y los que se ejecuten a posteriori hasta que se salga de la *jaula chroot*.
 
 El _chroot_ se puede realizar en cualquier ubicación de la estructura de ficheros de Linux y desde el directorio que se realice el usuario no podrá subir por encima de ese nivel (con la orden `cd ..` por ejemplo) aunque a nivel físico existan directorios a nivel superior.
