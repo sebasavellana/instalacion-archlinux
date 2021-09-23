@@ -168,6 +168,7 @@ Como ves, estás en el directorio raíz ubicado en la primera partición del pri
 ```
 ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 ```
+Este enlace simbólico hace que se pueda acceder a la zona horaria de Madrid que viene preconfigurada en el sistema desde su fichero de configuración en `/etc`.
 
 12 - El reloj hardware *(RTC) Real-Time Clock* es el que tiene el sistema en la placa base. Por otro lado, el reloj de sistema *System Clock* lo mantiene el sistema operativo.
 
@@ -178,4 +179,11 @@ El comando `hwclock` administra el reloj hardware visto desde el sistema operati
 hwclock --systohc
 ```
 
+13 - El sistema operativo por defecto se instala con la localización `C`, el cual está pensado para computadores y es una versión simplificada del inglés. Para que utilice la localización del Español de España se debe abrir el fichero `/etc/locale.gen` con un editor de texto como el `nano` (ojo, no está instalado, por lo que deberás hacerlo con `pacman -Sy nano`).
+
+Todas las líneas que comienzan con un `#` son comentarios y por tanto, ignoradas. Debes buscar una línea con el siguiente contenido y eliminar la almohadilla que hay delante.
+```
+es_ES.UTF8
+```
+A continuación, guarda el fichero y ejecuta el comando `locale-gen` para que tenga preparados los ficheros con los textos del sistema traducidos al castellano.
 
