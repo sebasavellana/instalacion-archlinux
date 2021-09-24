@@ -187,3 +187,35 @@ es_ES.UTF8
 ```
 A continuación, guarda el fichero y ejecuta el comando `locale-gen` para que tenga preparados los ficheros con los textos del sistema traducidos al castellano.
 
+14 - Para la correcta localización del sistema, no solo basta con generarla, también se debe añadir al fichero `/etc/locale.conf` de la siguiente manera:
+```
+/etc/locale.conf
+LANG=es_ES.UTF-8
+```
+
+15 - También se debe localizar al teclado español la consola virtual accesible con las teclas Ctrl + Alt + F1/F7 desde el fichero `/etc/vconsole.conf`:
+```
+/etc/locale.conf
+LANG=es_ES.UTF-8
+```
+
+16 - El equipo deberá tener un nombre configurado para ser identificado en la red y diferenciarlo del resto de equipos. Este parámetro se almacena en el fichero`/etc/hostname` y solo contendrá el nombre del equipo:
+```
+/etc/hostname
+archsor
+```
+
+17 - El fichero `/etc/hosts` almacena la relación entre nombres de equipo y direcciones IP. El formato inicial del fichero incluye las definiciones de _localhost_ tanto en IPv4 como IPv6.
+```
+127.0.0.1	  localhost
+::1		      localhost
+127.0.1.1	  archsor.localdomain	archsor
+```
+En la última línea se deberá colocar el nombre del equipo, que en este caso es `archsor`.
+
+18 - Hasta el momento presente se ha trabajo en modo monousuario con _root_ como jefe supremo de toda la instalación. Pero en la instalación deberá tener una contraseña para poder iniciar sesión, por lo que habrá que proporcionarsela con `passwd` sin ningún argumento adicional.
+La información relativa a los usuarios se almacena en los siguientes ficheros:
+- `/etc/passwd` con la información de los usuarios, su UID, GID y shell
+- `/etc/shadow` con las contraseñas cifradas de los usuarios del sistema
+
+19 - El sistema operativo para iniciar necesita un gestor de arranque, que en caso de Linux es el GRUB
